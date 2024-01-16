@@ -7,7 +7,8 @@
     "format": "prettier --config .prettierrc --write ./**/*.{html,ts,tsx,json,yml}",
     "format:check": "prettier --config .prettierrc --check ./**/*.{html,ts,tsx,json,yml}",
     "prepare": "node ./prepare.js",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "lint": "next lint ./frontend"
   },
   "lint-staged": {
     "*.{html,js,json,css}": [
