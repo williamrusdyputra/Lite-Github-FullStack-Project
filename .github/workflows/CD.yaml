@@ -20,7 +20,6 @@ jobs:
             cd /home/pixel-frontend/
             rm -r Pixel8Labs-test
             git clone https://github.com/williamrusdyputra/Pixel8Labs-test.git
-            git status
             cd Pixel8Labs-test/frontend/
             npm install
             npm run build
