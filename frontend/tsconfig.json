@@ -27,7 +27,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/pixel8labs/api/auth/[...nextauth].js"
+    "pages/pixel8labs/api/auth/[...nextauth].js",
+    "types/next-auth.d.ts"
   ],
   "exclude": ["node_modules"]
 }
