@@ -1,14 +1,30 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import NavLink from './navlink';
 import { useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const Header = () => {
+  const { data: session } = useSession();
   const [menuState, setMenuState] = useState(false);
+
+  const profilePic = '/pixel8labs/images/profile-pic.png';
+  const fullname = 'Rice Rice';
+  const email = 'rys@pixel8Labs.com';
 
   const handleNavMenu = () => {
     setMenuState(!menuState);
     document.body.classList.toggle('overflow-hidden');
+  };
+
+  const toggleDropdown = () => {
+    const dropdown = document.getElementById('dropdown');
+    if (dropdown) {
+      dropdown.classList.toggle('hidden');
+    }
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   return (
@@ -68,14 +84,122 @@ const Header = () => {
             }`}
           >
             <ul className="justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0 md:font-medium">
-              <li>
-                <NavLink
-                  href="/start"
-                  className="block font-medium text-white bg-primary hover:bg-button-hover md:inline"
-                >
-                  Login with Github
-                </NavLink>
-              </li>
+              {!session ? (
+                <li>
+                  <button
+                    onClick={() => signIn('github')}
+                    className="w-full py-2.5 px-4 text-center rounded-lg duration-150 block font-medium text-white bg-primary hover:bg-button-hover md:inline"
+                  >
+                    Login with Github
+                  </button>
+                </li>
+              ) : (
+                <div>
+                  <div className="relative hidden md:block">
+                    <button
+                      className="flex border rounded-lg p-2 items-center"
+                      onClick={toggleDropdown}
+                    >
+                      <Image
+                        className="mr-2"
+                        src={profilePic}
+                        alt="logo"
+                        width={40}
+                        height={40}
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                        />
+                      </svg>
+                    </button>
+
+                    <div
+                      id="dropdown"
+                      className="origin-top-right w-64 right-0 z-10 absolute hidden bg-white divide-gray-100 rounded-lg shadow dark:bg-gray-700"
+                    >
+                      <ul className="text-sm text-gray-700 dark:text-gray-200">
+                        <li className="p-2">
+                          <div className="flex">
+                            <Image
+                              className="mr-2"
+                              src={profilePic}
+                              alt="logo"
+                              width={40}
+                              height={40}
+                            />
+                            <div className="flex flex-col">
+                              <span>{fullname}</span>
+                              <span className="text-gray-500">{email}</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="border-t">
+                          <button
+                            onClick={refreshPage}
+                            className="w-full text-start block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            View profile
+                          </button>
+                        </li>
+                        <li className="border-t">
+                          <button
+                            onClick={() => signOut()}
+                            className="w-full text-start block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Log out
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="md:hidden">
+                    <ul>
+                      <li className="border-t p-8">
+                        <div className="flex">
+                          <Image
+                            className="mr-2"
+                            src={profilePic}
+                            alt="logo"
+                            width={40}
+                            height={40}
+                          />
+                          <div className="flex flex-col">
+                            <span>{fullname}</span>
+                            <span className="text-gray-500">{email}</span>
+                          </div>
+                        </div>
+                      </li>
+                      <li className="border-t p-8">
+                        <button
+                          onClick={refreshPage}
+                          className="w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          View profile
+                        </button>
+                      </li>
+                      <li className="border-t p-8">
+                        <button
+                          onClick={() => signOut()}
+                          className="w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          Log out
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              )}
             </ul>
           </div>
         </div>
