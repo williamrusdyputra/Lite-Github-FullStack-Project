@@ -24,6 +24,10 @@ func NewHTTPServer() *server {
 	router.Use(
 		middleware.Logger(),
 		middleware.Recover(),
+		middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"http://156.67.216.35"},
+			AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		}),
 	)
 	router.Logger.SetLevel(log.DEBUG)
 
