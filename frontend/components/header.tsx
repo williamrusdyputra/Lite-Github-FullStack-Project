@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession, getSession, signIn, signOut } from 'next-auth/react';
 import axios from 'axios';
 
 const Header = () => {
+  const router = useRouter();
   const { data: session } = useSession();
   const [menuState, setMenuState] = useState(false);
   const [profilePic, setProfilePic] = useState(
@@ -28,6 +30,11 @@ const Header = () => {
           },
         );
 
+        window.history.pushState(
+          null,
+          'username',
+          '/pixel8labs/' + session.git_username,
+        );
         setProfilePic(response.data.data.avatar_url);
         setFullname(response.data.data.name);
         setEmail(response.data.data.email);
@@ -179,7 +186,11 @@ const Header = () => {
                         </li>
                         <li className="border-t">
                           <button
-                            onClick={() => signOut()}
+                            onClick={() =>
+                              signOut({
+                                callbackUrl: 'http://156.67.216.35/pixel8labs',
+                              })
+                            }
                             className="w-full text-start block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             Log out
