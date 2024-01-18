@@ -9,8 +9,8 @@ Simple Golang backend to retrieve user information from Github
 
 Name            | Method| Path |
 ---             | ---   | --- | 
-Get Profile     | GET   | `/api/v1/github/profile` |
-Get Repositories| GET   | `/api/v1/github/repos` |
+Get Profile     | GET   | `pixel8labs/api/v1/github/profile` |
+Get Repositories| GET   | `pixel8labs/api/v1/github/repos` |
 
 ## How to run
 
