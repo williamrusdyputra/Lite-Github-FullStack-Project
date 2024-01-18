@@ -90,10 +90,14 @@ const Repository = () => {
       <div className="my-2">
         <button className="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <div className="flex">
-            <span className="pr-4 font-bold">{repository.name}</span>
-            <span className="p-1.5 rounded-xl text-xs font-bold bg-vs-public text-vs-public-text">
-              {repository.visibility}
-            </span>
+            <div>
+              <span className="pr-4 font-bold">{repository.name}</span>
+            </div>
+            <div>
+              <span className="p-1.5 rounded-xl text-xs font-bold bg-vs-public text-vs-public-text">
+                {repository.visibility}
+              </span>
+            </div>
           </div>
           <div className="pt-2 text-start">
             <p>{repository.description}</p>
