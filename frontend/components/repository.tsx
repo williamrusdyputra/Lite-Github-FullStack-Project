@@ -112,7 +112,7 @@ const Repository = () => {
       </div>
     );
   };
-  console.log(repos);
+
   return (
     <div className="lg:w-3/4 text-center lg:ml-8 lg:mt-0 mt-8 p-4 border">
       <div className="flex mb-6">
