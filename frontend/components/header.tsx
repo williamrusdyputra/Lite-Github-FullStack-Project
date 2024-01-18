@@ -1,15 +1,41 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useSession, getSession, signIn, signOut } from 'next-auth/react';
+import axios from 'axios';
 
 const Header = () => {
   const { data: session } = useSession();
   const [menuState, setMenuState] = useState(false);
+  const [profilePic, setProfilePic] = useState(
+    '/pixel8labs/images/profile-pic.png',
+  );
+  const [fullname, setFullname] = useState('Rice Rice');
+  const [email, setEmail] = useState('rys@pixel8Labs.com');
 
-  const profilePic = '/pixel8labs/images/profile-pic.png';
-  const fullname = 'Rice Rice';
-  const email = 'rys@pixel8Labs.com';
+  // update user data if session exists
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      if (session) {
+        const response = await axios.get(
+          'http://156.67.216.35/pixel8labs/api/v1/github/profile',
+          {
+            params: {
+              username: session.git_username,
+              access_token: session.access_token,
+            },
+          },
+        );
+
+        setProfilePic(response.data.data.avatar_url);
+        setFullname(response.data.data.name);
+        setEmail(response.data.data.email);
+      }
+    };
+
+    checkSession();
+  }, []);
 
   const handleNavMenu = () => {
     setMenuState(!menuState);
@@ -101,7 +127,7 @@ const Header = () => {
                       onClick={toggleDropdown}
                     >
                       <Image
-                        className="mr-2"
+                        className="mr-2 rounded-full"
                         src={profilePic}
                         alt="logo"
                         width={40}
@@ -131,7 +157,7 @@ const Header = () => {
                         <li className="p-2">
                           <div className="flex">
                             <Image
-                              className="mr-2"
+                              className="mr-2 rounded-full"
                               src={profilePic}
                               alt="logo"
                               width={40}
@@ -168,10 +194,10 @@ const Header = () => {
                       <li className="border-t p-8">
                         <div className="flex">
                           <Image
-                            className="mr-2"
+                            className="mr-2 rounded-full"
                             src={profilePic}
                             alt="logo"
-                            width={40}
+                            width={50}
                             height={40}
                           />
                           <div className="flex flex-col">
@@ -180,18 +206,18 @@ const Header = () => {
                           </div>
                         </div>
                       </li>
-                      <li className="border-t p-8">
+                      <li className="border-t">
                         <button
                           onClick={refreshPage}
-                          className="w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className="p-8 w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           View profile
                         </button>
                       </li>
-                      <li className="border-t p-8">
+                      <li className="border-t">
                         <button
                           onClick={() => signOut()}
-                          className="w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className="p-8 w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           Log out
                         </button>

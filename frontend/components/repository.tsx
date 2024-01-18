@@ -1,56 +1,90 @@
+import axios from 'axios';
+import { getSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+
 const Repository = () => {
   interface IRepo {
     name: string;
     visibility: string;
     description: string;
     language: string;
-    lastUpdated: string;
+    updatedAt: string;
   }
 
-  const repositories: IRepo[] = [
+  const [repos, setRepos] = useState<IRepo[]>([
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-1',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-2',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-3',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-4',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-5',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
     {
-      name: 'pixel8Labs-api',
+      name: 'pixel8Labs-api-6',
       visibility: 'public',
       description: 'Awesome Api from us for general development (all-at-once)',
       language: 'Ruby',
-      lastUpdated: 'just now',
+      updatedAt: 'just now',
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      if (session) {
+        const response = await axios.get(
+          'http://156.67.216.35/pixel8labs/api/v1/github/repos',
+          {
+            params: {
+              username: session.git_username,
+              access_token: session.access_token,
+            },
+          },
+        );
+
+        setRepos([]);
+        const newRepos: IRepo[] = response.data.data.map((repo: any) => ({
+          name: repo.name,
+          visibility: repo.visibility,
+          description: repo.description,
+          language: repo.language ? repo.language : 'default',
+          updatedAt: repo.updated_at,
+        }));
+
+        setRepos(newRepos);
+      }
+    };
+
+    checkSession();
+  }, []);
 
   const Repository: React.FC<{ repository: IRepo }> = ({ repository }) => {
     return (
@@ -71,27 +105,25 @@ const Repository = () => {
               {repository.language}
             </span>
             <span className="text-xs text-gray-500">
-              updated {repository.lastUpdated}
+              updated {repository.updatedAt}
             </span>
           </div>
         </button>
       </div>
     );
   };
-
-  const renderRepos = () => {
-    return repositories.map((repository) => {
-      return <Repository key={repository.name} repository={repository} />;
-    });
-  };
-
+  console.log(repos);
   return (
     <div className="lg:w-3/4 text-center lg:ml-8 lg:mt-0 mt-8 p-4 border">
       <div className="flex mb-6">
         <span className="font-bold text-2xl mr-4">Repository</span>
-        <span className="text-2xl">{repositories.length}</span>
+        <span className="text-2xl">{repos.length}</span>
       </div>
-      <div>{renderRepos()}</div>
+      <div>
+        {repos.map((repository) => (
+          <Repository key={repository.name} repository={repository} />
+        ))}
+      </div>
     </div>
   );
 };
