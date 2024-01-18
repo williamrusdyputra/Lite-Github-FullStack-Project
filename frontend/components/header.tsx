@@ -33,7 +33,7 @@ const Header = () => {
         window.history.pushState(
           null,
           'username',
-          '/pixel8labs/' + session.git_username,
+          '/pixel8labs/#' + session.git_username,
         );
         setProfilePic(response.data.data.avatar_url);
         setFullname(response.data.data.name);
