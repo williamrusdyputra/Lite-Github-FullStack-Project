@@ -215,7 +215,7 @@ const Header = () => {
                       </li>
                       <li className="border-t">
                         <button
-                          onClick={toggleDropdown}
+                          onClick={handleNavMenu}
                           className="p-8 w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           View profile
@@ -223,7 +223,11 @@ const Header = () => {
                       </li>
                       <li className="border-t">
                         <button
-                          onClick={() => signOut()}
+                          onClick={() =>
+                            signOut({
+                              callbackUrl: 'http://156.67.216.35/pixel8labs',
+                            })
+                          }
                           className="p-8 w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           Log out
