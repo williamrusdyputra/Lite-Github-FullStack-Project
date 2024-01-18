@@ -14,6 +14,7 @@ type ServiceParam struct {
 
 type Service interface {
 	GetProfile(ctx context.Context, username, accessToken string) (domain.Profile, error)
+	GetRepos(ctx context.Context, username, accessToken string) ([]domain.Repo, error)
 }
 
 func NewGithubService(param ServiceParam) Service {

@@ -21,6 +21,7 @@ func Github(router *echo.Group) {
 	}
 
 	router.GET("/profile", integrator.GetProfile)
+	router.GET("/repos", integrator.GetRepos)
 }
 
 func (integrator *githubIntegrator) GetProfile(c echo.Context) error {
@@ -40,5 +41,25 @@ func (integrator *githubIntegrator) GetProfile(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.Response{
 		Message: "success",
 		Data:    profile,
+	})
+}
+
+func (integrator *githubIntegrator) GetRepos(c echo.Context) error {
+	var req dto.RepoRequest
+
+	err := c.Bind(&req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, dto.Response{Message: err.Error()})
+	}
+
+	repos, err := integrator.svc.GetRepos(context.Background(), req.Username, req.AccessToken)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, dto.Response{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.Response{
+		Message: "success",
+		Data:    repos,
 	})
 }

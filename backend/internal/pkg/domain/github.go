@@ -7,3 +7,11 @@ type Profile struct {
 	Following int64   `json:"following"`
 	Followers int64   `json:"followers"`
 }
+
+type Repo struct {
+	Name        *string `json:"name"`
+	Description *string `json:"description"`
+	Visibility  *string `json:"visibility"`
+	Language    *string `json:"language"`
+	UpdatedAt   string  `json:"updated_at"`
+}
