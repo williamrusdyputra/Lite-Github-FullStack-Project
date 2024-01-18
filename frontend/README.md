@@ -4,7 +4,6 @@ Simple React frontend to shows github profile and repositories
 
 ## Pre-requisites
 
-- Follow this to install next js https://nextjs.org/docs/getting-started/installation
 - Install `node` and `npm` https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 ## How to run
