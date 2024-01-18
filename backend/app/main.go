@@ -25,6 +25,7 @@ func main() {
 	router := engine.Group("pixel8labs/api/v1/github")
 
 	api.Healthcheck(router)
+	api.Github(router)
 
 	transports = append(transports, httpServer)
 
