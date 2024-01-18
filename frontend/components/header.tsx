@@ -56,10 +56,6 @@ const Header = () => {
     }
   };
 
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
   return (
     <header className="border-b-2">
       <nav>
@@ -178,7 +174,7 @@ const Header = () => {
                         </li>
                         <li className="border-t">
                           <button
-                            onClick={refreshPage}
+                            onClick={toggleDropdown}
                             className="w-full text-start block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           >
                             View profile
@@ -219,7 +215,7 @@ const Header = () => {
                       </li>
                       <li className="border-t">
                         <button
-                          onClick={refreshPage}
+                          onClick={toggleDropdown}
                           className="p-8 w-full text-start block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           View profile
