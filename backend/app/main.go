@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/api"
 	"backend/internal/pkg/config"
 	"backend/internal/pkg/transport"
 	"os"
@@ -20,6 +21,11 @@ func main() {
 	// transports will initialize all servers (http, grpc, etc)
 	transports := []transport.Transport{}
 	httpServer := transport.NewHTTPServer()
+	engine := httpServer.Engine()
+	router := engine.Group("pixel8labs/api/v1/github")
+
+	api.Healthcheck(router)
+	api.Github(router)
 
 	transports = append(transports, httpServer)
 
