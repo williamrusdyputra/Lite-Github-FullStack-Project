@@ -18,6 +18,8 @@ func (svc *service) GetProfile(ctx context.Context, username, accessToken string
 
 	// add authorization header
 	req.Header.Add("Authorization", accessToken)
+	req.Header.Set("User-Agent", "golang-backend")
+	req.Header.Add("X-GitHub-Api-Version", "2022-11-28")
 
 	client := &http.Client{}
 
@@ -45,6 +47,8 @@ func (svc *service) GetRepos(ctx context.Context, username, accessToken string) 
 
 	// add authorization header
 	req.Header.Add("Authorization", accessToken)
+	req.Header.Set("User-Agent", "golang-backend")
+	req.Header.Add("X-GitHub-Api-Version", "2022-11-28")
 
 	client := &http.Client{}
 

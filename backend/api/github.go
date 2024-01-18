@@ -25,14 +25,10 @@ func Github(router *echo.Group) {
 }
 
 func (integrator *githubIntegrator) GetProfile(c echo.Context) error {
-	var req dto.ProfileRequest
+	username := c.QueryParam("username")
+	accessToken := c.QueryParam("access_token")
 
-	err := c.Bind(&req)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, dto.Response{Message: err.Error()})
-	}
-
-	profile, err := integrator.svc.GetProfile(context.Background(), req.Username, req.AccessToken)
+	profile, err := integrator.svc.GetProfile(context.Background(), username, accessToken)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.Response{Message: err.Error()})
@@ -45,14 +41,10 @@ func (integrator *githubIntegrator) GetProfile(c echo.Context) error {
 }
 
 func (integrator *githubIntegrator) GetRepos(c echo.Context) error {
-	var req dto.RepoRequest
+	username := c.QueryParam("username")
+	accessToken := c.QueryParam("access_token")
 
-	err := c.Bind(&req)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, dto.Response{Message: err.Error()})
-	}
-
-	repos, err := integrator.svc.GetRepos(context.Background(), req.Username, req.AccessToken)
+	repos, err := integrator.svc.GetRepos(context.Background(), username, accessToken)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.Response{Message: err.Error()})
