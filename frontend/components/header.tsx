@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession, getSession, signIn, signOut } from 'next-auth/react';
 import axios from 'axios';
 
+const backendURL = process.env.BACKEND_URL;
+
 const Header = () => {
-  const router = useRouter();
   const { data: session } = useSession();
   const [menuState, setMenuState] = useState(false);
   const [profilePic, setProfilePic] = useState(
@@ -21,7 +21,7 @@ const Header = () => {
       const session = await getSession();
       if (session) {
         const response = await axios.get(
-          'http://156.67.216.35/pixel8labs/api/v1/github/profile',
+          backendURL + '/api/v1/github/profile',
           {
             params: {
               username: session.git_username,

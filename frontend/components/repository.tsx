@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
+const backendURL = process.env.BACKEND_URL;
+
 const Repository = () => {
   interface IRepo {
     name: string;
@@ -60,15 +62,12 @@ const Repository = () => {
     const checkSession = async () => {
       const session = await getSession();
       if (session) {
-        const response = await axios.get(
-          'http://156.67.216.35/pixel8labs/api/v1/github/repos',
-          {
-            params: {
-              username: session.git_username,
-              access_token: session.access_token,
-            },
+        const response = await axios.get(backendURL + '/api/v1/github/repos', {
+          params: {
+            username: session.git_username,
+            access_token: session.access_token,
           },
-        );
+        });
 
         setRepos([]);
         const newRepos: IRepo[] = response.data.data.map((repo: any) => ({
