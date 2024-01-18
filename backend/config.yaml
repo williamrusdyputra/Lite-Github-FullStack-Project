@@ -1,0 +1,5 @@
+server:
+  base_url: 127.0.0.1
+  port: 8083
+  read_timeout: 10000
+  write_timeout: 20000
