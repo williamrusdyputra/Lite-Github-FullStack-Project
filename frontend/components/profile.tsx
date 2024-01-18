@@ -29,7 +29,7 @@ const Profile = () => {
     following: 1,
     followers: 2,
   });
-
+  console.log(backendURL);
   // update user data if session exists
   useEffect(() => {
     const checkSession = async () => {
