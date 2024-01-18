@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+const backendURL = process.env.BACKEND_URL;
+
 const Profile = () => {
   interface IProfile {
     image: string;
@@ -34,7 +36,7 @@ const Profile = () => {
       const session = await getSession();
       if (session) {
         const response = await axios.get(
-          'http://156.67.216.35/pixel8labs/api/v1/github/profile',
+          backendURL + '/api/v1/github/profile',
           {
             params: {
               username: session.git_username,
